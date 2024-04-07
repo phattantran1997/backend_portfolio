@@ -1,4 +1,3 @@
-using System.Net;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 
@@ -6,16 +5,22 @@ public class PostService : IPostService
 {
     private readonly string _notionBlocksUrl = "https://api.notion.com/v1/blocks/289c3f117e02495ca6622818992424c8/children?page_size=100";
     private readonly string _notionPagesUrl = "https://api.notion.com/v1/pages/";
-    private readonly string _notionApiKey = "secret_LRzymn38n6i069CcKrBvq9MqurnzE3e3oYdJICZZRP4"; // Your Notion API key
+    // private readonly string _notionApiKey = "secret_LRzymn38n6i069CcKrBvq9MqurnzE3e3oYdJICZZRP4"; // Your Notion API key
     private readonly string _notionVersion = "2022-06-28"; // Notion API version
-
+    private readonly IConfiguration _configuration;
+    public PostService(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
     public async Task<List<NotionPost>> getNotionPostsAsync()
     {
        try
-    {
+    {            
+        string notionApiKey = _configuration["NotionApi:ApiKey"];
+
         using (HttpClient client = new HttpClient())
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _notionApiKey);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", notionApiKey);
             client.DefaultRequestHeaders.Add("Notion-Version", _notionVersion);
 
             using (HttpResponseMessage response = await client.GetAsync(_notionBlocksUrl))
