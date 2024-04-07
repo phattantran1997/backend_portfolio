@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 
@@ -14,7 +15,19 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 builder.Services.AddScoped<IExperienceService,ExperirenceService>();
 builder.Services.AddScoped<IExperienceRepository,ExperienceRepository>();
+builder.Services.AddScoped<IPublicationRepository,PublicationRepository>();
+builder.Services.AddScoped<IPublicationService,PublicationService>();
+builder.Services.AddScoped<IPostService,PostService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy  =>
+                      {
+                            policy.WithOrigins("http://localhost:5173")
+            .SetIsOriginAllowedToAllowWildcardSubdomains();
+                      });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +40,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
 

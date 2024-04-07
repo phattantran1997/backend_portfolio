@@ -10,12 +10,18 @@ public class ExperienceRepository : IExperienceRepository
     }
     public async Task AddExperienceAsync(Experience experience)
     {
-        throw new NotImplementedException();
+        await _dbContext.Experiences.AddAsync(experience);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task DeleteExperienceAsync(int id)
+    public async Task DeleteExperienceAsync(int id)
     {
-        throw new NotImplementedException();
+        var person = await _dbContext.Experiences.FindAsync(id);
+        if (person != null)
+        {
+            _dbContext.Experiences.Remove(person);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 
     public async Task<IEnumerable<Experience>> GetExperienceAsync()
@@ -23,13 +29,15 @@ public class ExperienceRepository : IExperienceRepository
         return await _dbContext.Experiences.ToListAsync();
     }
 
-    public Task<Experience> GetExperienceByIdAsync(int id)
+    public async Task<Experience> GetExperienceByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Experiences.FindAsync(id);
+
     }
 
-    public Task UpdateExperienceAsync(Experience experience)
+    public async Task UpdateExperienceAsync(Experience experience)
     {
-        throw new NotImplementedException();
+       _dbContext.Experiences.Update(experience);
+        await _dbContext.SaveChangesAsync();
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend_portfolio.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240402031715_UpdateExperienceTableAdd2NewPropertiesTypeAndImage")]
+    partial class UpdateExperienceTableAdd2NewPropertiesTypeAndImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,43 +66,6 @@ namespace backend_portfolio.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Experiences");
-                });
-
-            modelBuilder.Entity("Publication", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("image")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("longDescription")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("period")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("place")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("type")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Publications");
                 });
 #pragma warning restore 612, 618
         }

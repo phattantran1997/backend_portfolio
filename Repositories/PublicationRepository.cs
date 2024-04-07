@@ -1,28 +1,44 @@
 
+using Microsoft.EntityFrameworkCore;
+
 public class PublicationRepository : IPublicationRepository
 {
-    public Task AddPublicationAsync(Publication publication)
+   private readonly ApplicationDBContext _dbContext;
+
+    public PublicationRepository(ApplicationDBContext dbContext)
     {
-        throw new NotImplementedException();
+        _dbContext = dbContext;
     }
 
-    public Task DeletePublicationAsync(int id)
+    public async Task<IEnumerable<Publication>> GetPublicationsAsync()
     {
-        throw new NotImplementedException();
+        return await _dbContext.Publications.ToListAsync();
     }
 
-    public Task<IEnumerable<Publication>> GetPublicationAsync()
+    public async Task<Publication> GetPublicationByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.Publications.FindAsync(id);
     }
 
-    public Task<Publication> GetPublicationByIdAsync(int id)
+    public async Task AddPublicationAsync(Publication publication)
     {
-        throw new NotImplementedException();
+        await _dbContext.Publications.AddAsync(publication);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task UpdatePublicationAsync(Publication publication)
+    public async Task UpdatePublicationAsync(Publication publication)
     {
-        throw new NotImplementedException();
+        _dbContext.Publications.Update(publication);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task DeletePublicationAsync(int id)
+    {
+        var publication = await _dbContext.Publications.FindAsync(id);
+        if (publication != null)
+        {
+            _dbContext.Publications.Remove(publication);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
