@@ -1,0 +1,45 @@
+# version: '3'
+
+# services:
+#   db:
+#     image: mysql:8.0
+#     restart: always
+#     environment:
+#       MYSQL_ROOT_PASSWORD: 12345678
+#       MYSQL_DATABASE: mydatabasePortfolio
+#     ports:
+#       - '3307:3306'
+#     volumes:
+#       - db:/var/lib/mysql
+#     networks:
+#       - app-network
+
+#   api:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - db
+
+# volumes:
+#   db:
+
+# networks:
+#   app-network:
+
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings:DefaultConnection=Server=host.docker.internal;Port=3306;Database=mydatabasePortfolio;User=root;Password=12345678;
+
+networks:
+  app-network:

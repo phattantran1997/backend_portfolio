@@ -17,7 +17,7 @@ public class PostService : IPostService
        try
     {            
         string notionApiKey = _configuration["NotionApi:ApiKey"];
-
+        Console.WriteLine(notionApiKey);
         using (HttpClient client = new HttpClient())
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", notionApiKey);
