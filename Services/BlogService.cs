@@ -1,18 +1,18 @@
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 
-public class PostService : IPostService
+public class BlogService : IBlogService
 {
     private readonly string _notionBlocksUrl = "https://api.notion.com/v1/blocks/289c3f117e02495ca6622818992424c8/children?page_size=100";
     private readonly string _notionPagesUrl = "https://api.notion.com/v1/pages/";
     // private readonly string _notionApiKey = "secret_LRzymn38n6i069CcKrBvq9MqurnzE3e3oYdJICZZRP4"; // Your Notion API key
     private readonly string _notionVersion = "2022-06-28"; // Notion API version
     private readonly IConfiguration _configuration;
-    public PostService(IConfiguration configuration)
+    public BlogService(IConfiguration configuration)
     {
         _configuration = configuration;
     }
-    public async Task<List<NotionPost>> getNotionPostsAsync()
+    public async Task<List<NotionBlog>> getNotionBlogsAsync()
     {
        try
     {            
@@ -32,7 +32,7 @@ public class PostService : IPostService
 
                     List<string> blockIds = blockListResponse.Results.ConvertAll(block => block.Id);
 
-                    List<NotionPost> posts = new List<NotionPost>();
+                    List<NotionBlog> Blogs = new List<NotionBlog>();
 
                     foreach (string blockId in blockIds)
                     {
@@ -41,13 +41,13 @@ public class PostService : IPostService
                             if (pageResponse.IsSuccessStatusCode)
                             {
                                 var pageResponseBody = await pageResponse.Content.ReadAsStringAsync();
-                                NotionPost jsonData = JsonConvert.DeserializeObject<NotionPost>(pageResponseBody);
-                                posts.Add(jsonData);
+                                NotionBlog jsonData = JsonConvert.DeserializeObject<NotionBlog>(pageResponseBody);
+                                Blogs.Add(jsonData);
                             }
                         }
                     }
 
-                    return posts;
+                    return Blogs;
                 }
                 else
                 {

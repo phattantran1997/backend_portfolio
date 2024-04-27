@@ -12,7 +12,7 @@ public class BlockItem
    
 }
 
-public class NotionPost
+public class NotionBlog
 {
     [JsonProperty("cover")]
     public CoverDetails Cover { get; set; }

@@ -17,7 +17,7 @@ builder.Services.AddScoped<IExperienceService,ExperirenceService>();
 builder.Services.AddScoped<IExperienceRepository,ExperienceRepository>();
 builder.Services.AddScoped<IPublicationRepository,PublicationRepository>();
 builder.Services.AddScoped<IPublicationService,PublicationService>();
-builder.Services.AddScoped<IPostService,PostService>();
+builder.Services.AddScoped<IBlogService,BlogService>();
 
 builder.Services.AddCors(options =>
 {
